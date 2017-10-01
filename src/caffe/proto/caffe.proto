@@ -212,7 +212,7 @@ message NetParameter {
 // NOTE
 // Update the next available ID when you add a new SolverParameter field.
 //
-// SolverParameter next available ID: 44 (last added: plateau_winsize)
+// SolverParameter next available ID: 45 (last added: show_per_class_result)
 message SolverParameter {
   //////////////////////////////////////////////////////////////////////////////
   // Specifying the train and test networks
@@ -501,6 +501,8 @@ message LayerParameter {
   optional DataParameter data_param = 107;
   optional DetectionEvaluateParameter detection_evaluate_param = 205;
   optional DetectionOutputParameter detection_output_param = 204;
+  // ACT-detector
+  optional ACTDetectionOutputParameter  act_detection_output_param = 2018; 
   optional DropoutParameter dropout_param = 108;
   optional DummyDataParameter dummy_data_param = 109;
   optional EltwiseParameter eltwise_param = 110;
@@ -519,6 +521,8 @@ message LayerParameter {
   optional LRNParameter lrn_param = 118;
   optional MemoryDataParameter memory_data_param = 119;
   optional MultiBoxLossParameter multibox_loss_param = 201;
+  // ACT-detector
+  optional ACTCuboidLossParameter act_cuboid_loss_param = 2017; 
   optional MVNParameter mvn_param = 120;
   optional NormalizeParameter norm_param = 206;
   optional ParameterParameter parameter_param = 145;
@@ -1312,6 +1316,23 @@ message MultiBoxLossParameter {
   optional NonMaximumSuppressionParameter nms_param = 21;
   optional int32 sample_size = 22 [default = 64];
   optional bool use_prior_for_nms = 23 [default = false];
+}
+
+// ACT-detector: message that store parameters used by "ACTCuboidLossLayer"
+message ACTCuboidLossParameter {
+
+  required uint32 sequence_length = 1;
+  
+}
+
+// ACT-detector: message that stores parameters used by "ACTDetectionOutputLayer"
+message ACTDetectionOutputParameter {
+
+  required uint32 sequence_length = 1;
+  
+  // ACT-detector: save_full parameter:
+  // output the scores/regressions of all cuboids (in which case standard nms and thresholding from DetectionOutputLayer is applied)
+  optional bool save_full = 2 [default = false]; 
 }
 
 message MVNParameter {
