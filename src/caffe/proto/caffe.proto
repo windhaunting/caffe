@@ -438,6 +438,8 @@ message ParamSpec {
 // Update the next available ID when you add a new LayerParameter field.
 //
 // LayerParameter next available layer-specific ID: 147 (last added: recurrent_param)
+// ssd layers start at 200 (here: until 207)
+// act-detector layers start at 300 (here: until 301)
 message LayerParameter {
   optional string name = 1; // the layer name
   optional string type = 2; // the layer type
@@ -490,6 +492,9 @@ message LayerParameter {
   // engine parameter for selecting the implementation.
   // The default for the engine is set by the ENGINE switch at compile-time.
   optional AccuracyParameter accuracy_param = 102;
+  // ACT-detector
+  optional ACTCuboidLossParameter act_cuboid_loss_param = 300; 
+  optional ACTDetectionOutputParameter  act_detection_output_param = 301; 
   optional AnnotatedDataParameter annotated_data_param = 200;
   optional ArgMaxParameter argmax_param = 103;
   optional BatchNormParameter batch_norm_param = 139;
@@ -501,8 +506,6 @@ message LayerParameter {
   optional DataParameter data_param = 107;
   optional DetectionEvaluateParameter detection_evaluate_param = 205;
   optional DetectionOutputParameter detection_output_param = 204;
-  // ACT-detector
-  optional ACTDetectionOutputParameter  act_detection_output_param = 2018; 
   optional DropoutParameter dropout_param = 108;
   optional DummyDataParameter dummy_data_param = 109;
   optional EltwiseParameter eltwise_param = 110;
@@ -521,8 +524,6 @@ message LayerParameter {
   optional LRNParameter lrn_param = 118;
   optional MemoryDataParameter memory_data_param = 119;
   optional MultiBoxLossParameter multibox_loss_param = 201;
-  // ACT-detector
-  optional ACTCuboidLossParameter act_cuboid_loss_param = 2017; 
   optional MVNParameter mvn_param = 120;
   optional NormalizeParameter norm_param = 206;
   optional ParameterParameter parameter_param = 145;
