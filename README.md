@@ -20,17 +20,15 @@ method   |  J-HMDB |  |   |   | UCF-101 |   |    |   |
 [Singh17ICCV](https://arxiv.org/pdf/1611.08563.pdf) | 73.8 | 72.0 | 44.5 | 41.6 | 73.5 | 46.3 | 15.0 | 20.4 |
 **ACT-detector** | 74.2 | **73.7** | **52.1** | **44.8** | **77.2** | **51.4** | **22.7** | **25.0** |
 
-## Citing
+## Citing ACT-detector
 
 If you find ACT-detector useful in your research, please cite: 
 
-    @inproceedings{kalogeiton17iccv:hal-01519812,
-      TITLE = {{Action Tubelet Detector for Spatio-Temporal Action Localization}},
+    @inproceedings{kalogeiton17iccv,
+      TITLE = {Action Tubelet Detector for Spatio-Temporal Action Localization},
       AUTHOR = {Kalogeiton, Vicky and Weinzaepfel, Philippe and Ferrari, Vittorio and Schmid, Cordelia},
       YEAR = {2017},
-      MONTH = Oct,
-      BOOKTITLE = {{ICCV 2017 - IEEE International Conference on Computer Vision}},
-      ADDRESS = {Venice, Italy},
+      BOOKTITLE = {ICCV},
     }
     
 ## Contents
@@ -39,7 +37,7 @@ If you find ACT-detector useful in your research, please cite:
 3. [Models](#models)
 4. [Training](#training)
 
-## Installation -- FIX ME 
+## Installation
 
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
@@ -60,6 +58,16 @@ If you find ACT-detector useful in your research, please cite:
   ```
 
 ## Datasets
+
+To download the ground truth tubes, run the script:
+
+    ./cache/fetch_cached_data.sh --dataset_name # dataset name: UCFSports, JHMDB, UCF101
+
+This will populate the `cache` folder with three `pkl` files, one for each dataset. 
+For more details about the format of the `pkl` files, see `act-detector-scripts/Dataset.py`. 
+
+If you want to reproduce exactly our results as reported in [Tables 2 and 3](https://hal.inria.fr/hal-01519812/document), 
+we also provide the RGB and flow files for the three datasets we use. 
 
 1. UCF-Sports
 
@@ -82,6 +90,7 @@ You can download the frames (4.4GB), optical flow (860MB) and ground truth annot
     curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCF101-Frames.tar.gz    | tar xvz  # frames, 4.4GB
     curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCF101-OF.tar.gz.tar.gz | tar xvz  # optical flow, 860MB
 
+These will create a `datasets` folder in your current directory. 
 
 ## Models
 
@@ -105,7 +114,7 @@ Note that these modes are K=6 parallel streams of the ILSVRC 2012 caffemodel. ##
        cd caffe/
        ./data/scripts/fetch_models.sh.
 
-This will download one `RGB.caffemodel` and onr `FLOW5.caffemodel` for each dataset: UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+This will download one `RGB.caffemodel` and one `FLOW5.caffemodel` for each dataset: UCF-Sports, J-HMDB (3 splits) and UCF-101. 
 These are stored in `data/${dataset_name}`.
 
 These are the models used to produce our results in [Tables 2 and 3](https://hal.inria.fr/hal-01519812/document).
