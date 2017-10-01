@@ -28,8 +28,8 @@ def extract_tubelets(dname, gpu=-1, redo=False):
     the file contains a tuple (dets, dets_all)
         - dets is a numpy array with 2+4*K columns containing the tubelets starting at this frame after per-class nms at 0.45 and thresholding the scores at 0.01
           the columns are <label> <score> and then <x1> <y1> <x2> <y2> for each of the frame in the tubelet
-        - dets_all contains the tubelets obtain after a global nms at 0.7 and thresholding the scores at 0.01
-            it is a numpy arrray with 4*K + L+1 containing the coordinates of the tubelets and the scores for all labels
+        - dets_all contains the tubelets obtained after a global nms at 0.7 and thresholding the scores at 0.01
+            it is a numpy arrray with 4*K + L + 1 containing the coordinates of the tubelets and the scores for all labels
 
     note: this version is inefficient: it is better to estimate the per-frame features once
     """
@@ -59,8 +59,7 @@ def extract_tubelets(dname, gpu=-1, redo=False):
         h, w = d.resolution(v)
         
         # network output is normalized between 0,1 ; so we will multiply it by the following array
-        resolution_array = np.array([[1,1]+[w,h,w,h]*K], dtype=np.float32)
-        resolution_array_all = np.array([[w,h,w,h]*K+[1]*(d.nlabels+1)], dtype=np.float32)
+        resolution_array = np.array([w,h,w,h]*K, dtype=np.float32)
         
         # now process each frame
         for i in xrange(1, 1 + d.nframes(v) - K + 1):
@@ -83,28 +82,36 @@ def extract_tubelets(dname, gpu=-1, redo=False):
                 kwargs_flo['data_stream' + str(j) + 'flow'] = np.concatenate(timscale, axis=1)
             
             # compute rgb and flow scores
+            # two forward passes: one for the rgb and one for the flow 
             net_rgb.forward(end="mbox_conf_flatten", **kwargs_rgb) # forward of rgb with confidence and regression
             net_flo.forward(end="mbox_conf_flatten", **kwargs_flo) # forward of flow5 with confidence and regression
             
             # compute late fusion of rgb and flow scores (keep regression from rgb)
             # use net_rgb for standard detections, net_flo for having all boxes
             scores = 0.5 * (net_rgb.blobs['mbox_conf_flatten'].data + net_flo.blobs['mbox_conf_flatten'].data)
-            net_flo.blobs['mbox_loc'].data[...] = net_rgb.blobs['mbox_loc'].data
             net_rgb.blobs['mbox_conf_flatten'].data[...] = scores
             net_flo.blobs['mbox_conf_flatten'].data[...] = scores
+            net_flo.blobs['mbox_loc'].data[...] = net_rgb.blobs['mbox_loc'].data
+            
+            # two forward passes, only for the last layer 
+            # dets is the detections after per-class NMS and thresholding (stardard)
+            # dets_all contains all the scores and regressions for all tubelets 
             dets = net_rgb.forward(start='detection_out')['detection_out'][0, 0, :, 1:]
             dets_all = net_flo.forward(start='detection_out_full')['detection_out_full'][0, 0, :, 1:]
             
-            # parse detections with per-class nms
+            # parse detections with per-class NMS
             if dets.shape[0] == 1 and np.all(dets == -1):
                 dets = np.empty((0, dets.shape[1]), dtype=np.float32)
+
+            dets[:, 2:] *= resolution_array # network output was normalized in [0..1]
             dets[:, 0] -= 1 # label 0 was background, come back to label in [0..nlabels-1]
-            dets[:, [2, 4]] = np.maximum(0, np.minimum(w, dets[:, [2, 4]]))
-            dets[:, [3, 5]] = np.maximum(0, np.minimum(h, dets[:, [3, 5]]))
-            dets *= resolution_array # network output was normalized in [0..1]
-            # parse detections with global nms at 0.7 (top 300)
-            #dets_all = out['detection_out_full'][0,0,:,1:] # first column is the index in the batch
-            dets_all *= resolution_array_all # network output was normalized in [0..1]
+            dets[:, 2::2] = np.maximum(0, np.minimum(w, dets[:, 2::2]))
+            dets[:, 3::2] = np.maximum(0, np.minimum(h, dets[:, 3::2]))
+            
+
+            # parse detections with global NMS at 0.7 (top 300)
+            # coordinates were normalized in [0..1]
+            dets_all[:, 0:4*K] *= resolution_array 
             dets_all[:, 0:4*K:2] = np.maximum(0, np.minimum(w, dets_all[:, 0:4*K:2]))
             dets_all[:, 1:4*K:2] = np.maximum(0, np.minimum(h, dets_all[:, 1:4*K:2]))
             idx = nms_tubelets(np.concatenate((dets_all[:, :4*K], np.max(dets_all[:, 4*K+1:], axis=1)[:, None]), axis=1), 0.7, 300)
