@@ -3,12 +3,10 @@
 #include <utility>
 #include <vector>
 
-#include "caffe/layers/ACT_cuboid_loss_layer.hpp" // TODO by vicky 
+#include "caffe/layers/ACT_cuboid_loss_layer.hpp" 
 #include "caffe/util/math_functions.hpp"
 
 namespace caffe {
-
-const int DEBUG=0; 
 
 template <typename Dtype>
 void ACTCuboidLossLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
@@ -137,7 +135,6 @@ void ACTCuboidLossLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
 template <typename Dtype>
 void ACTCuboidLossLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) {
-  // TODO fix me fix-me CHECK ME 
   LossLayer<Dtype>::Reshape(bottom, top);
   num_ = bottom[0]->num();
   num_priors_ = bottom[2]->height() / 4;
@@ -161,26 +158,7 @@ void ACTCuboidLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
   map<int, vector<ACTNormalizedTube> > all_gt_tubes;
   ACTGetGroundTruth(gt_data, num_gt_, background_label_id_, use_difficult_gt_,
                  &all_gt_tubes, sequence_length_);
-
-  // VICKY CHECK If we want it 
-  // print information about the snippet 
-  if( DEBUG>0 ) { 
-    for(map<int,vector<ACTNormalizedTube> >::iterator it = all_gt_tubes.begin(); it != all_gt_tubes.end(); ++it) {
-        LOG(INFO) << "Found " << it->second.size() << " ground truth in snippet " << it->first;
-        if( DEBUG>1 ) {
-            vector<ACTNormalizedTube> gt_tubes = it->second;
-            for (int i = 0; i < gt_tubes.size(); ++i) {
-                LOG(INFO) << "Tube " << i;
-                ACTNormalizedTube tube = gt_tubes[i];
-                for(int j=0 ; j<tube.size() ; ++j) {
-                  LOG(INFO) << tube[j].xmin() << " " << tube[j].ymin() << " " << tube[j].xmax() << " " << tube[j].ymax();
-                }
-            }            
-        }
-        
-    }      
-  }
-  // VICKY CHECK If we want it                  
+              
   // Retrieve all prior tubes. It is same within a batch since we assume all
   // images in a batch are of same dimension.
   vector<ACTNormalizedTube> prior_tubes;

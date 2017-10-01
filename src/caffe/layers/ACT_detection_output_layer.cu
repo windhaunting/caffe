@@ -222,7 +222,6 @@ void ACTDetectionOutputLayer<Dtype>::Forward_gpu(
         // ACT-detector: for all bounding boxes in the sequence of frames        
         for (int jj=0; jj< sequence_length_ ; ++jj){
             for (int k = 0; k < 4; ++k) {
-              // ACT-detector: replace this double for loop with a much faster caffe_copy? VICKY CHECK ME 
               top_data[count * row_size + 4 * jj + 3 + k] = cur_bbox_data[idx * 4 * sequence_length_ + 4*jj+ k];
             }
         }        
@@ -237,16 +236,6 @@ void ACTDetectionOutputLayer<Dtype>::Forward_gpu(
       CHECK(false) << "ACT-detector: Saving tubes is not implemeted";      
     }
   }
-  // VICKY CHECK ME : remove visualize?? 
-  /* if (visualize_) { 
-#ifdef USE_OPENCV
-    vector<cv::Mat> cv_imgs;
-    this->data_transformer_->TransformInv(bottom[3], &cv_imgs);
-    vector<cv::Scalar> colors = GetColors(label_to_display_name_.size());
-    VisualizeBBox(cv_imgs, top[0], visualize_threshold_, colors,
-        label_to_display_name_, save_file_);
-#endif  // USE_OPENCV
-  } */
 }
 
 INSTANTIATE_LAYER_GPU_FUNCS(ACTDetectionOutputLayer);
