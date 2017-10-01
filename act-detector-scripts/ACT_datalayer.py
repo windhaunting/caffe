@@ -174,8 +174,6 @@ def sample_cuboids(tubes, batch_samplers, imheight, imwidth):
             sampled_cuboid = np.array([x*imwidth, y*imheight, (x+width)*imwidth, (y+height)*imheight], dtype=np.float32)
             # check constraint
 
-            # vic check
-
             itrial += 1
             if not 'sample_constraint' in batch_sampler:
                 sampled_cuboids.append(sampled_cuboid)
@@ -242,6 +240,29 @@ def crop_image(imglist, tubes, batch_samplers):
     return imglist, out_tubes
 
 
+# Assisting function for finding a good/bad tubelet
+def tubelet_in_tube(tube, i, K):
+    # True if all frames from i to (i + K - 1) are inside tube
+    # it's sufficient to just check the first and last frame. 
+    return (i in tube[: ,0] and i + K - 1 in tube[:, 0])
+
+def tubelet_out_tube(tube, i, K): 
+    # True if all frames between i and (i + K - 1) are outside of tube
+    return all([not j in tube[:, 0] for j in xrange(i, i + K)])
+
+def tubelet_in_out_tubes(tube_list, i, K): 
+    # Given a list of tubes: tube_list, return True if  
+    # all frames from i to (i + K - 1) are either inside (tubelet_in_tube)
+    # or outside (tubelet_out_tube) the tubes. 
+    return all([tubelet_in_tube(tube, i, K) or tubelet_out_tube(tube, i, K) for tube in tube_list])
+
+def tubelet_has_gt(tube_list, i, K):
+    # Given a list of tubes: tube_list, return True if  
+    # the tubelet starting spanning from [i to (i + K - 1)]
+    # is inside (tubelet_in_tube) at least a tube in tube_list. 
+    return any([tubelet_in_tube(tube, i, K) for tube in tube_list])
+
+
 class MultiframesLayer(caffe.Layer):
 
     def shuffle(self): # shuffle the list of possible starting frames
@@ -294,9 +315,10 @@ class MultiframesLayer(caffe.Layer):
         self._indices = []
         for v in d.train_vlist():
             vtubes = sum(d.gttubes(v).values(), [])
-            # vic check me
-            self._indices += [(v,i) for i in range(1, d.nframes(v)+2-K) if all([ (i in t[:,0] and i+K-1 in t[:,0]) or all([not j in t[:,0] for j in xrange(i,i+K)]) for t in vtubes]) and any([ (i in t[:,0] and i+K-1 in t[:,0]) for t in vtubes]) ]
 
+            self._indices += [(v,i) for i in range(1, d.nframes(v)+2-K) if tubelet_in_out_tubes(vtubes,i,K) and tubelet_has_gt(vtubes,i,K)]
+            # self._indices += [(v,i) for i in range(1, d.nframes(v)+2-K) if all([ (i in t[:,0] and i+K-1 in t[:,0]) or all([not j in t[:,0] for j in xrange(i,i+K)]) for t in vtubes]) and any([ (i in t[:,0] and i+K-1 in t[:,0]) for t in vtubes]) ]
+            
         self._nseqs = len(self._indices)
 
         self._iter = 0
@@ -327,7 +349,6 @@ class MultiframesLayer(caffe.Layer):
         # Have the same data augmentation, even if restarted
         random.seed(self._rand_seed + self._iter)
 
-        # vic check
         data = [np.empty((self._batch_size, 3 * self._ninput, self._resize_height, self._resize_width), dtype=np.float32) for ii in range(K)]
 
         alltubes = []

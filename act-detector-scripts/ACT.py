@@ -5,7 +5,7 @@ import cPickle as pickle
 import cv2
 import numpy as np
 
-caffe_path = os.path.join(os.path.dirname(__file__), "caffe/python")
+caffe_path = os.path.join(os.path.dirname(__file__), "../python")
 sys.path.insert(0, caffe_path)
 import caffe
 from Dataset import GetDataset
@@ -39,18 +39,17 @@ def extract_tubelets(dname, gpu=-1, redo=False):
         caffe.set_mode_gpu()
         caffe.set_device(gpu)
 
-    model_dir = os.path.join(os.path.dirname(__file__), '../models', dname)
-    output_dir = os.path.join(os.path.dirname(__file__), '../results', dname)
-    data_dir = os.path.join(os.path.dirname(__file__), '../data', dname)
+    model_dir = os.path.join(os.path.dirname(__file__), '../models/ACT-detector/', dname)
+    output_dir = os.path.join(os.path.dirname(__file__), '../results/ACT-detector/', dname)
     
     # load the RGB network
     rgb_proto = os.path.join(model_dir, "deploy_RGB.prototxt")
-    rgb_model = os.path.join(data_dir, "RGB.caffemodel")
+    rgb_model = os.path.join(model_dir, "RGB.caffemodel")
     net_rgb = caffe.Net(rgb_proto, caffe.TEST, weights=rgb_model)
     
     # load the FLOW5 network
     flo_proto = os.path.join(model_dir, "deploy_FLOW5.prototxt")
-    flo_model = os.path.join(data_dir, "FLOW5.caffemodel")
+    flo_model = os.path.join(model_dir, "FLOW5.caffemodel")
     net_flo = caffe.Net(flo_proto, caffe.TEST, weights=flo_model)
 
     vlist = d.test_vlist()
@@ -107,7 +106,6 @@ def extract_tubelets(dname, gpu=-1, redo=False):
             dets[:, 0] -= 1 # label 0 was background, come back to label in [0..nlabels-1]
             dets[:, 2::2] = np.maximum(0, np.minimum(w, dets[:, 2::2]))
             dets[:, 3::2] = np.maximum(0, np.minimum(h, dets[:, 3::2]))
-            
 
             # parse detections with global NMS at 0.7 (top 300)
             # coordinates were normalized in [0..1]

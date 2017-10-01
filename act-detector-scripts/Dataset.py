@@ -2,7 +2,6 @@ import os
 import sys
 import cPickle as pickle
 
-import numpy as np
 from PIL import Image
 
 ROOT_DATASET_PATH = "/path/to/datasets"  # CHANGEME
