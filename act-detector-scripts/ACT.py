@@ -171,7 +171,7 @@ def load_frame_detections(d, vlist, dirname, nms):
 
 def frameAP(dname, th=0.5, redo=False):
     d = GetDataset(dname)
-    dirname = os.path.join(os.path.dirname(__file__), 'results', dname)
+    dirname = os.path.join(os.path.dirname(__file__), '../results/ACT-detector/', dname)
     
     eval_file = os.path.join(dirname, "frameAP{:g}.pkl".format(th))
     
@@ -259,7 +259,7 @@ def frameAP(dname, th=0.5, redo=False):
 
 def frameMABO(dname, redo=False):
     d = GetDataset(dname)
-    dirname = os.path.join( os.path.dirname(__file__), 'results', dname)
+    dirname = os.path.join( os.path.dirname(__file__), '../results/ACT-detector/', dname)
     eval_file = os.path.join(dirname, "frameMABO.pkl")
     
     if os.path.isfile(eval_file) and not redo:
@@ -321,7 +321,7 @@ def frameMABO(dname, redo=False):
 
 def frameCLASSIF(dname, redo=False):
     d = GetDataset(dname)
-    dirname = os.path.join(os.path.dirname(__file__), 'results', dname)
+    dirname = os.path.join(os.path.dirname(__file__), '../results/ACT-detector/', dname)
     eval_file = os.path.join(dirname, "frameCLASSIF.pkl")
     
     if os.path.isfile(eval_file) and not redo:
@@ -385,7 +385,7 @@ def frameCLASSIF(dname, redo=False):
 
 def BuildTubes(dname, redo=False):
     d = GetDataset(dname)
-    dirname = os.path.join( os.path.dirname(__file__), 'results', dname)
+    dirname = os.path.join( os.path.dirname(__file__), '../results/ACT-detector/', dname)
     vlist = d.test_vlist()
 
     for iv, v in enumerate(vlist):
@@ -509,7 +509,7 @@ def BuildTubes(dname, redo=False):
 
 def videoAP(dname, th=0.5, redo=False):
     d = GetDataset(dname)
-    dirname = os.path.join( os.path.dirname(__file__), 'results', dname)
+    dirname = os.path.join( os.path.dirname(__file__), '../results/ACT-detector/', dname)
     eval_file = os.path.join(dirname, "videoAP{:g}.pkl".format(th))
     
     if os.path.isfile(eval_file) and not redo:

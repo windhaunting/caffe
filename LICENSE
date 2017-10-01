@@ -1,6 +1,10 @@
 COPYRIGHT
 
-All new contributions compared to the original branch:
+All ACT-detector contributions:
+Copyright (c) 2017 Vicky Kalogeiton, Philippe Weinzaepfel, 
+Vittorio Ferrari, Cordelia Schmid. 
+
+All ssd contributions:
 Copyright (c) 2015, 2016 Wei Liu (UNC Chapel Hill), Dragomir Anguelov (Zoox),
 Dumitru Erhan (Google), Christian Szegedy (Google), Scott Reed (UMich Ann Arbor),
 Cheng-Yang Fu (UNC Chapel Hill), Alexander C. Berg (UNC Chapel Hill).
