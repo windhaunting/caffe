@@ -143,6 +143,7 @@ These are stored in `models/ACT-detector/${dataset_name}`.
        python act-detector-scripts/ACT.py "extract_tubelets('${dataset_name}', gpu=-1)" # change dataset name, -1 is for cpu 
        
 The tubelets are stored in the folder called `act-detector-results`. 
+Note that the test is not efficient and can be coded more efficiently by extracting features once per frame. 
 
 3. For creating tubes, you can run the following:
 
