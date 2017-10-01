@@ -37,7 +37,7 @@ If you find ACT-detector useful in your research, please cite:
 1. [Installation](#installation)
 2. [Datasets](#datasets)
 3. [Models](#models)
-4. [Data](#data)
+4. [Training](#training)
 
 ## Installation -- FIX ME 
 
@@ -85,16 +85,52 @@ You can download the frames (4.4GB), optical flow (860MB) and ground truth annot
 
 ## Models
 
-We provide the prototxt used for our experiments for UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+1. We provide the prototxt used for our experiments for UCF-Sports, J-HMDB (3 splits) and UCF-101. 
 These are stored in: `caffe/models/`. 
 
-## Data
+2.  To obtain the caffemodels used for initialization of the RGB and FLOW5 networks, run from the main caffe directory: 
 
-We also provide our trained models that are trained on different datasets: UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+        cd caffe/
+        ./data/scripts/fetch_initial_models.sh.
+  
+This will download the intial caffemodels:
+`caffe/data/initialization_VGG_ILSVRC16_K6_RGB.caffemodels` and 
+`caffe/data/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodels`
+
+Note that these modes are K=6 parallel streams of the ILSVRC 2012 caffemodel. ## FIX ME 
+
+3. We also provide our trained models that are trained on different datasets: UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+   To obtain our trained caffemodels for sequence length K=6, run from the main caffe directory:
+
+       cd caffe/
+       ./data/scripts/fetch_models.sh.
+
+This will download one `RGB.caffemodel` and onr `FLOW5.caffemodel` for each dataset: UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+These are stored in `data/${dataset_name}`.
+
 These are the models used to produce our results in [Tables 2 and 3](https://hal.inria.fr/hal-01519812/document).
 
-From the act-detector folder, run the model fetch script: `./data/scripts/fetch_models.sh`.
+## Training 
 
-This will populate the `caffe/data` folder with the models. 
-See `caffe/data/README.md` for details.
+Example of training commands for a dataset
+
+1. RGB 
+
+        cd caffe/                                                       # act-detector caffe directory
+        export PYTHONPATH="$(pwd)/act-detector-scripts:$PYTHONPATH"     # path of act-detector 
+        ./caffe/build/tools/caffe train \
+        -solver models/${dataset_name}/solver_RGB.prototxt \            # change dataset name 
+        -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
+        -gpu 0                                                          # gpu id
+
+2. 5 stacked Flows
+
+        cd caffe/                                                       # act-detector caffe directory
+        export PYTHONPATH="$(pwd)/act-detector-scripts:$PYTHONPATH"     # path of act-detector 
+        ./caffe/build/tools/caffe train \
+        -solver models/${dataset_name}/solver_FLOW5.prototxt \          # change dataset name 
+        -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
+        -gpu 0                                                          # gpu id
+
+
 
