@@ -17,11 +17,11 @@ namespace caffe {
 
 
 /**
- * @brief Perform MultiBox operations, modified by us. Including the following:
+ * @brief Perform Cuboid operations. Including the following:
  *
  *  - decode the predictions.
  *  - perform matching between priors/predictions and ground truth.
- *  - use matched boxes and confidences to compute loss.
+ *  - use matched cuboids and confidences to compute loss.
  *
  */
 template <typename Dtype>
@@ -37,8 +37,8 @@ class ACTCuboidLossLayer : public LossLayer<Dtype> {
   virtual inline const char* type() const { return "MultiBoxLoss"; }
   // bottom[0] stores the location predictions.
   // bottom[1] stores the confidence predictions.
-  // bottom[2] stores the prior bounding boxes.
-  // bottom[3] stores the ground truth bounding boxes.
+  // bottom[2] stores the anchor cuboids.
+  // bottom[3] stores the ground truth tubelets.
   virtual inline int ExactNumBottomBlobs() const { return 4; }
   virtual inline int ExactNumTopBlobs() const { return 1; }
 

@@ -25,7 +25,7 @@ namespace caffe {
  * @brief Generate the detection output based on location and confidence
  * predictions by doing non maximum suppression.
  *
- * Intended for use with MultiBox detection method.
+ * Intended for use with ACT-detector detection method.
  *
  * NOTE: does not implement Backwards operation.
  */
@@ -54,11 +54,12 @@ class ACTDetectionOutputLayer : public Layer<Dtype> {
    *   -# @f$ (N \times C2 \times 1 \times 1) @f$
    *      the confidence predictions with C2 predictions.
    *   -# @f$ (N \times 2 \times C3 \times 1) @f$
-   *      the prior bounding boxes with C3 values.
+   *      the prior cuboids with C3 values.
    * @param top output Blob vector (length 1)
    *   -# @f$ (1 \times 1 \times N \times 7) @f$
    *      N is the number of detections after nms, and each row is:
-   *      [image_id, label, confidence, xmin, ymin, xmax, ymax]
+   *      [image_id, label, confidence, [xmin, ymin, xmax, ymax] * K], 
+   *      where K is the sequence length
    */
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
