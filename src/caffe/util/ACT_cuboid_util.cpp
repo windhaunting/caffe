@@ -193,7 +193,6 @@ bool IsCrossBoundaryTube(const ACTNormalizedTube& tube) {
   return ret;
 }
 
-// VICKY CHECK ME SOS : I think the last argument here is not normalized anymore but sequence length? right? 
 // ACT-detector: jaccard overlap for tubes 
 float JaccardOverlapTube(const ACTNormalizedTube& tube1, const ACTNormalizedTube& tube2, 
                          const bool normalized) {
@@ -973,7 +972,7 @@ void ACTScaleTube(const ACTNormalizedTube& tube, const int height, const int wid
                ACTNormalizedTube* scale_tube) {
   CHECK_EQ(tube.size(),scale_tube->size() ) << "ACT-detector: Tubes do not have the same length";
   //ACT-detector: for each box in the sequence of frames
-  for (int jj=0; jj < tube.size(); ++jj){ // check me fix me 
+  for (int jj=0; jj < tube.size(); ++jj){
       (*scale_tube)[jj].set_xmin(tube[jj].xmin() * width);
       (*scale_tube)[jj].set_ymin(tube[jj].ymin() * height);
       (*scale_tube)[jj].set_xmax(tube[jj].xmax() * width);
@@ -1179,7 +1178,6 @@ void ACTDecodeTubes(
   }
 }
 
-// VICKY CHECK ME SOS : is the following being used? 
 void ACTDecodeTubesAll(const vector<ACTLabelTube>& all_loc_preds,
     const vector<ACTNormalizedTube>& prior_tubes,
     const vector<vector<float> >& prior_variances,

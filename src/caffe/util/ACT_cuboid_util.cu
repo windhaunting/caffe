@@ -653,8 +653,7 @@ template void ACTComputeConfLossGPU(const Blob<double>& conf_data, const int num
       vector<vector<float> >* all_conf_loss);
 
 
-// vic add here
-
+// 
 template <typename Dtype>
 __global__ void ACTDecodeTubesKernel(const int nthreads,
           const Dtype* loc_data, const Dtype* prior_data,
