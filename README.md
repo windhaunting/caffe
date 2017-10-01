@@ -34,8 +34,8 @@ If you find ACT-detector useful in your research, please cite:
 ## Contents
 1. [Installation](#installation)
 2. [Datasets](#datasets)
-3. [Models](#models)
-4. [Training](#training)
+3. [Training](#training)
+4. [Testing](#testing)
 
 ## Installation
 
@@ -92,7 +92,39 @@ You can download the frames (4.4GB), optical flow (860MB) and ground truth annot
 
 These will create a `datasets` folder in your current directory. 
 
-## Models
+## Training 
+
+1. We provide the prototxt used for our experiments for UCF-Sports, J-HMDB (3 splits) and UCF-101. 
+These are stored in: `caffe/models/ACT-detector/${dataset_name}`.
+
+2. Download the RGB and FLOW5 initialization models pre-trained on ILSVRC 2012: 
+
+        ./data/scripts/fetch_initial_models.sh.
+  
+This will download the caffemodels:
+`caffe/data/initialization_VGG_ILSVRC16_K6_RGB.caffemodels` and 
+`caffe/data/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodels`
+
+3. We provide an example of training commands for a `${dataset_name}`: 
+
+i. RGB 
+        
+        export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"          # path of act-detector 
+        ./caffe/build/tools/caffe train \
+        -solver models/${dataset_name}/solver_RGB.prototxt \             # change dataset name 
+        -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
+        -gpu 0                                                           # gpu id
+
+ii. 5 stacked Flows
+
+        export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"          # path of act-detector 
+        ./caffe/build/tools/caffe train \
+        -solver models/${dataset_name}/solver_FLOW5.prototxt \           # change dataset name 
+        -weights models/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
+        -gpu 0                                                           # gpu id
+
+
+## Testing
 
 1. We provide the prototxt used for our experiments for UCF-Sports, J-HMDB (3 splits) and UCF-101. 
 These are stored in: `caffe/models/`. 
@@ -118,28 +150,4 @@ This will download one `RGB.caffemodel` and one `FLOW5.caffemodel` for each data
 These are stored in `data/${dataset_name}`.
 
 These are the models used to produce our results in [Tables 2 and 3](https://hal.inria.fr/hal-01519812/document).
-
-## Training 
-
-Example of training commands for a dataset
-
-1. RGB 
-
-        cd caffe/                                                       # act-detector caffe directory
-        export PYTHONPATH="$(pwd)/act-detector-scripts:$PYTHONPATH"     # path of act-detector 
-        ./caffe/build/tools/caffe train \
-        -solver models/${dataset_name}/solver_RGB.prototxt \            # change dataset name 
-        -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
-        -gpu 0                                                          # gpu id
-
-2. 5 stacked Flows
-
-        cd caffe/                                                       # act-detector caffe directory
-        export PYTHONPATH="$(pwd)/act-detector-scripts:$PYTHONPATH"     # path of act-detector 
-        ./caffe/build/tools/caffe train \
-        -solver models/${dataset_name}/solver_FLOW5.prototxt \          # change dataset name 
-        -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
-        -gpu 0                                                          # gpu id
-
-
 
