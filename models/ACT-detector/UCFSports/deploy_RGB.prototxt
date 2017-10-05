@@ -5228,10 +5228,10 @@ layer {
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_loc"
+  name: "conv4_3_norm_concat_mbox_loc"
   type: "Convolution"
   bottom: "conv4_3_norm_concat"
-  top: "conv4_3_norm_concat_act_loc"
+  top: "conv4_3_norm_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5255,10 +5255,10 @@ layer {
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_loc_perm"
+  name: "conv4_3_norm_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "conv4_3_norm_concat_act_loc"
-  top: "conv4_3_norm_concat_act_loc_perm"
+  bottom: "conv4_3_norm_concat_mbox_loc"
+  top: "conv4_3_norm_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5267,19 +5267,19 @@ layer {
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_loc_flat"
+  name: "conv4_3_norm_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "conv4_3_norm_concat_act_loc_perm"
-  top: "conv4_3_norm_concat_act_loc_flat"
+  bottom: "conv4_3_norm_concat_mbox_loc_perm"
+  top: "conv4_3_norm_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_conf"
+  name: "conv4_3_norm_concat_mbox_conf"
   type: "Convolution"
   bottom: "conv4_3_norm_concat"
-  top: "conv4_3_norm_concat_act_conf"
+  top: "conv4_3_norm_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5303,10 +5303,10 @@ layer {
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_conf_perm"
+  name: "conv4_3_norm_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "conv4_3_norm_concat_act_conf"
-  top: "conv4_3_norm_concat_act_conf_perm"
+  bottom: "conv4_3_norm_concat_mbox_conf"
+  top: "conv4_3_norm_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5315,20 +5315,20 @@ layer {
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_conf_flat"
+  name: "conv4_3_norm_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "conv4_3_norm_concat_act_conf_perm"
-  top: "conv4_3_norm_concat_act_conf_flat"
+  bottom: "conv4_3_norm_concat_mbox_conf_perm"
+  top: "conv4_3_norm_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv4_3_norm_concat_act_priorbox"
+  name: "conv4_3_norm_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "conv4_3_norm_concat"
   bottom: "data_stream0"
-  top: "conv4_3_norm_concat_act_priorbox"
+  top: "conv4_3_norm_concat_mbox_priorbox"
   prior_box_param {
     min_size: 30.0
     max_size: 60.0
@@ -5358,10 +5358,10 @@ layer {
   }
 }
 layer {
-  name: "fc7_concat_act_loc"
+  name: "fc7_concat_mbox_loc"
   type: "Convolution"
   bottom: "fc7_concat"
-  top: "fc7_concat_act_loc"
+  top: "fc7_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5385,10 +5385,10 @@ layer {
   }
 }
 layer {
-  name: "fc7_concat_act_loc_perm"
+  name: "fc7_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "fc7_concat_act_loc"
-  top: "fc7_concat_act_loc_perm"
+  bottom: "fc7_concat_mbox_loc"
+  top: "fc7_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5397,19 +5397,19 @@ layer {
   }
 }
 layer {
-  name: "fc7_concat_act_loc_flat"
+  name: "fc7_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "fc7_concat_act_loc_perm"
-  top: "fc7_concat_act_loc_flat"
+  bottom: "fc7_concat_mbox_loc_perm"
+  top: "fc7_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "fc7_concat_act_conf"
+  name: "fc7_concat_mbox_conf"
   type: "Convolution"
   bottom: "fc7_concat"
-  top: "fc7_concat_act_conf"
+  top: "fc7_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5433,10 +5433,10 @@ layer {
   }
 }
 layer {
-  name: "fc7_concat_act_conf_perm"
+  name: "fc7_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "fc7_concat_act_conf"
-  top: "fc7_concat_act_conf_perm"
+  bottom: "fc7_concat_mbox_conf"
+  top: "fc7_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5445,20 +5445,20 @@ layer {
   }
 }
 layer {
-  name: "fc7_concat_act_conf_flat"
+  name: "fc7_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "fc7_concat_act_conf_perm"
-  top: "fc7_concat_act_conf_flat"
+  bottom: "fc7_concat_mbox_conf_perm"
+  top: "fc7_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "fc7_concat_act_priorbox"
+  name: "fc7_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "fc7_concat"
   bottom: "data_stream0"
-  top: "fc7_concat_act_priorbox"
+  top: "fc7_concat_mbox_priorbox"
   prior_box_param {
     min_size: 60.0
     max_size: 111.0
@@ -5489,10 +5489,10 @@ layer {
   }
 }
 layer {
-  name: "conv6_2_concat_act_loc"
+  name: "conv6_2_concat_mbox_loc"
   type: "Convolution"
   bottom: "conv6_2_concat"
-  top: "conv6_2_concat_act_loc"
+  top: "conv6_2_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5516,10 +5516,10 @@ layer {
   }
 }
 layer {
-  name: "conv6_2_concat_act_loc_perm"
+  name: "conv6_2_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "conv6_2_concat_act_loc"
-  top: "conv6_2_concat_act_loc_perm"
+  bottom: "conv6_2_concat_mbox_loc"
+  top: "conv6_2_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5528,19 +5528,19 @@ layer {
   }
 }
 layer {
-  name: "conv6_2_concat_act_loc_flat"
+  name: "conv6_2_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "conv6_2_concat_act_loc_perm"
-  top: "conv6_2_concat_act_loc_flat"
+  bottom: "conv6_2_concat_mbox_loc_perm"
+  top: "conv6_2_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv6_2_concat_act_conf"
+  name: "conv6_2_concat_mbox_conf"
   type: "Convolution"
   bottom: "conv6_2_concat"
-  top: "conv6_2_concat_act_conf"
+  top: "conv6_2_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5564,10 +5564,10 @@ layer {
   }
 }
 layer {
-  name: "conv6_2_concat_act_conf_perm"
+  name: "conv6_2_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "conv6_2_concat_act_conf"
-  top: "conv6_2_concat_act_conf_perm"
+  bottom: "conv6_2_concat_mbox_conf"
+  top: "conv6_2_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5576,20 +5576,20 @@ layer {
   }
 }
 layer {
-  name: "conv6_2_concat_act_conf_flat"
+  name: "conv6_2_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "conv6_2_concat_act_conf_perm"
-  top: "conv6_2_concat_act_conf_flat"
+  bottom: "conv6_2_concat_mbox_conf_perm"
+  top: "conv6_2_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv6_2_concat_act_priorbox"
+  name: "conv6_2_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "conv6_2_concat"
   bottom: "data_stream0"
-  top: "conv6_2_concat_act_priorbox"
+  top: "conv6_2_concat_mbox_priorbox"
   prior_box_param {
     min_size: 111.0
     max_size: 162.0
@@ -5620,10 +5620,10 @@ layer {
   }
 }
 layer {
-  name: "conv7_2_concat_act_loc"
+  name: "conv7_2_concat_mbox_loc"
   type: "Convolution"
   bottom: "conv7_2_concat"
-  top: "conv7_2_concat_act_loc"
+  top: "conv7_2_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5647,10 +5647,10 @@ layer {
   }
 }
 layer {
-  name: "conv7_2_concat_act_loc_perm"
+  name: "conv7_2_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "conv7_2_concat_act_loc"
-  top: "conv7_2_concat_act_loc_perm"
+  bottom: "conv7_2_concat_mbox_loc"
+  top: "conv7_2_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5659,19 +5659,19 @@ layer {
   }
 }
 layer {
-  name: "conv7_2_concat_act_loc_flat"
+  name: "conv7_2_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "conv7_2_concat_act_loc_perm"
-  top: "conv7_2_concat_act_loc_flat"
+  bottom: "conv7_2_concat_mbox_loc_perm"
+  top: "conv7_2_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv7_2_concat_act_conf"
+  name: "conv7_2_concat_mbox_conf"
   type: "Convolution"
   bottom: "conv7_2_concat"
-  top: "conv7_2_concat_act_conf"
+  top: "conv7_2_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5695,10 +5695,10 @@ layer {
   }
 }
 layer {
-  name: "conv7_2_concat_act_conf_perm"
+  name: "conv7_2_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "conv7_2_concat_act_conf"
-  top: "conv7_2_concat_act_conf_perm"
+  bottom: "conv7_2_concat_mbox_conf"
+  top: "conv7_2_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5707,20 +5707,20 @@ layer {
   }
 }
 layer {
-  name: "conv7_2_concat_act_conf_flat"
+  name: "conv7_2_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "conv7_2_concat_act_conf_perm"
-  top: "conv7_2_concat_act_conf_flat"
+  bottom: "conv7_2_concat_mbox_conf_perm"
+  top: "conv7_2_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv7_2_concat_act_priorbox"
+  name: "conv7_2_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "conv7_2_concat"
   bottom: "data_stream0"
-  top: "conv7_2_concat_act_priorbox"
+  top: "conv7_2_concat_mbox_priorbox"
   prior_box_param {
     min_size: 162.0
     max_size: 213.0
@@ -5751,10 +5751,10 @@ layer {
   }
 }
 layer {
-  name: "conv8_2_concat_act_loc"
+  name: "conv8_2_concat_mbox_loc"
   type: "Convolution"
   bottom: "conv8_2_concat"
-  top: "conv8_2_concat_act_loc"
+  top: "conv8_2_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5778,10 +5778,10 @@ layer {
   }
 }
 layer {
-  name: "conv8_2_concat_act_loc_perm"
+  name: "conv8_2_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "conv8_2_concat_act_loc"
-  top: "conv8_2_concat_act_loc_perm"
+  bottom: "conv8_2_concat_mbox_loc"
+  top: "conv8_2_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5790,19 +5790,19 @@ layer {
   }
 }
 layer {
-  name: "conv8_2_concat_act_loc_flat"
+  name: "conv8_2_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "conv8_2_concat_act_loc_perm"
-  top: "conv8_2_concat_act_loc_flat"
+  bottom: "conv8_2_concat_mbox_loc_perm"
+  top: "conv8_2_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv8_2_concat_act_conf"
+  name: "conv8_2_concat_mbox_conf"
   type: "Convolution"
   bottom: "conv8_2_concat"
-  top: "conv8_2_concat_act_conf"
+  top: "conv8_2_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5826,10 +5826,10 @@ layer {
   }
 }
 layer {
-  name: "conv8_2_concat_act_conf_perm"
+  name: "conv8_2_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "conv8_2_concat_act_conf"
-  top: "conv8_2_concat_act_conf_perm"
+  bottom: "conv8_2_concat_mbox_conf"
+  top: "conv8_2_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5838,20 +5838,20 @@ layer {
   }
 }
 layer {
-  name: "conv8_2_concat_act_conf_flat"
+  name: "conv8_2_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "conv8_2_concat_act_conf_perm"
-  top: "conv8_2_concat_act_conf_flat"
+  bottom: "conv8_2_concat_mbox_conf_perm"
+  top: "conv8_2_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv8_2_concat_act_priorbox"
+  name: "conv8_2_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "conv8_2_concat"
   bottom: "data_stream0"
-  top: "conv8_2_concat_act_priorbox"
+  top: "conv8_2_concat_mbox_priorbox"
   prior_box_param {
     min_size: 213.0
     max_size: 264.0
@@ -5881,10 +5881,10 @@ layer {
   }
 }
 layer {
-  name: "conv9_2_concat_act_loc"
+  name: "conv9_2_concat_mbox_loc"
   type: "Convolution"
   bottom: "conv9_2_concat"
-  top: "conv9_2_concat_act_loc"
+  top: "conv9_2_concat_mbox_loc"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5908,10 +5908,10 @@ layer {
   }
 }
 layer {
-  name: "conv9_2_concat_act_loc_perm"
+  name: "conv9_2_concat_mbox_loc_perm"
   type: "Permute"
-  bottom: "conv9_2_concat_act_loc"
-  top: "conv9_2_concat_act_loc_perm"
+  bottom: "conv9_2_concat_mbox_loc"
+  top: "conv9_2_concat_mbox_loc_perm"
   permute_param {
     order: 0
     order: 2
@@ -5920,19 +5920,19 @@ layer {
   }
 }
 layer {
-  name: "conv9_2_concat_act_loc_flat"
+  name: "conv9_2_concat_mbox_loc_flat"
   type: "Flatten"
-  bottom: "conv9_2_concat_act_loc_perm"
-  top: "conv9_2_concat_act_loc_flat"
+  bottom: "conv9_2_concat_mbox_loc_perm"
+  top: "conv9_2_concat_mbox_loc_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv9_2_concat_act_conf"
+  name: "conv9_2_concat_mbox_conf"
   type: "Convolution"
   bottom: "conv9_2_concat"
-  top: "conv9_2_concat_act_conf"
+  top: "conv9_2_concat_mbox_conf"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -5956,10 +5956,10 @@ layer {
   }
 }
 layer {
-  name: "conv9_2_concat_act_conf_perm"
+  name: "conv9_2_concat_mbox_conf_perm"
   type: "Permute"
-  bottom: "conv9_2_concat_act_conf"
-  top: "conv9_2_concat_act_conf_perm"
+  bottom: "conv9_2_concat_mbox_conf"
+  top: "conv9_2_concat_mbox_conf_perm"
   permute_param {
     order: 0
     order: 2
@@ -5968,20 +5968,20 @@ layer {
   }
 }
 layer {
-  name: "conv9_2_concat_act_conf_flat"
+  name: "conv9_2_concat_mbox_conf_flat"
   type: "Flatten"
-  bottom: "conv9_2_concat_act_conf_perm"
-  top: "conv9_2_concat_act_conf_flat"
+  bottom: "conv9_2_concat_mbox_conf_perm"
+  top: "conv9_2_concat_mbox_conf_flat"
   flatten_param {
     axis: 1
   }
 }
 layer {
-  name: "conv9_2_concat_act_priorbox"
+  name: "conv9_2_concat_mbox_priorbox"
   type: "PriorBox"
   bottom: "conv9_2_concat"
   bottom: "data_stream0"
-  top: "conv9_2_concat_act_priorbox"
+  top: "conv9_2_concat_mbox_priorbox"
   prior_box_param {
     min_size: 264.0
     max_size: 315.0
@@ -5997,52 +5997,52 @@ layer {
   }
 }
 layer {
-  name: "act_loc"
+  name: "mbox_loc"
   type: "Concat"
-  bottom: "conv4_3_norm_concat_act_loc_flat"
-  bottom: "fc7_concat_act_loc_flat"
-  bottom: "conv6_2_concat_act_loc_flat"
-  bottom: "conv7_2_concat_act_loc_flat"
-  bottom: "conv8_2_concat_act_loc_flat"
-  bottom: "conv9_2_concat_act_loc_flat"
-  top: "act_loc"
+  bottom: "conv4_3_norm_concat_mbox_loc_flat"
+  bottom: "fc7_concat_mbox_loc_flat"
+  bottom: "conv6_2_concat_mbox_loc_flat"
+  bottom: "conv7_2_concat_mbox_loc_flat"
+  bottom: "conv8_2_concat_mbox_loc_flat"
+  bottom: "conv9_2_concat_mbox_loc_flat"
+  top: "mbox_loc"
   concat_param {
     axis: 1
   }
 }
 layer {
-  name: "act_conf"
+  name: "mbox_conf"
   type: "Concat"
-  bottom: "conv4_3_norm_concat_act_conf_flat"
-  bottom: "fc7_concat_act_conf_flat"
-  bottom: "conv6_2_concat_act_conf_flat"
-  bottom: "conv7_2_concat_act_conf_flat"
-  bottom: "conv8_2_concat_act_conf_flat"
-  bottom: "conv9_2_concat_act_conf_flat"
-  top: "act_conf"
+  bottom: "conv4_3_norm_concat_mbox_conf_flat"
+  bottom: "fc7_concat_mbox_conf_flat"
+  bottom: "conv6_2_concat_mbox_conf_flat"
+  bottom: "conv7_2_concat_mbox_conf_flat"
+  bottom: "conv8_2_concat_mbox_conf_flat"
+  bottom: "conv9_2_concat_mbox_conf_flat"
+  top: "mbox_conf"
   concat_param {
     axis: 1
   }
 }
 layer {
-  name: "act_priorbox"
+  name: "mbox_priorbox"
   type: "Concat"
-  bottom: "conv4_3_norm_concat_act_priorbox"
-  bottom: "fc7_concat_act_priorbox"
-  bottom: "conv6_2_concat_act_priorbox"
-  bottom: "conv7_2_concat_act_priorbox"
-  bottom: "conv8_2_concat_act_priorbox"
-  bottom: "conv9_2_concat_act_priorbox"
-  top: "act_priorbox"
+  bottom: "conv4_3_norm_concat_mbox_priorbox"
+  bottom: "fc7_concat_mbox_priorbox"
+  bottom: "conv6_2_concat_mbox_priorbox"
+  bottom: "conv7_2_concat_mbox_priorbox"
+  bottom: "conv8_2_concat_mbox_priorbox"
+  bottom: "conv9_2_concat_mbox_priorbox"
+  top: "mbox_priorbox"
   concat_param {
     axis: 2
   }
 }
 layer {
-  name: "act_conf_reshape"
+  name: "mbox_conf_reshape"
   type: "Reshape"
-  bottom: "act_conf"
-  top: "act_conf_reshape"
+  bottom: "mbox_conf"
+  top: "mbox_conf_reshape"
   reshape_param {
     shape {
       dim: 0
@@ -6052,19 +6052,19 @@ layer {
   }
 }
 layer {
-  name: "act_conf_softmax"
+  name: "mbox_conf_softmax"
   type: "Softmax"
-  bottom: "act_conf_reshape"
-  top: "act_conf_softmax"
+  bottom: "mbox_conf_reshape"
+  top: "mbox_conf_softmax"
   softmax_param {
     axis: 2
   }
 }
 layer {
-  name: "act_conf_flatten"
+  name: "mbox_conf_flatten"
   type: "Flatten"
-  bottom: "act_conf_softmax"
-  top: "act_conf_flatten"
+  bottom: "mbox_conf_softmax"
+  top: "mbox_conf_flatten"
   flatten_param {
     axis: 1
   }
@@ -6072,9 +6072,9 @@ layer {
 layer {
   name: "detection_out"
   type: "ACTDetectionOutput"
-  bottom: "act_loc"
-  bottom: "act_conf_flatten"
-  bottom: "act_priorbox"
+  bottom: "mbox_loc"
+  bottom: "mbox_conf_flatten"
+  bottom: "mbox_priorbox"
   top: "detection_out"
   include {
     phase: TEST
