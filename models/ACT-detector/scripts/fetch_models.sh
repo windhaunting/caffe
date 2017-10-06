@@ -3,31 +3,23 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-FILE=act-detector-caffemodels.tgz
-CHECKSUM=7
 
-if [ -f $FILE ]; then
-  echo "File already exists. Checking md5..."
-  os=`uname -s`
-  if [ "$os" = "Linux" ]; then
-    checksum=`md5sum $FILE | awk '{ print $1 }'`
-  elif [ "$os" = "Darwin" ]; then
-    checksum=`cat $FILE | md5`
-  fi
-  if [ "$checksum" = "$CHECKSUM" ]; then
-    echo "Model checksum is correct. No need to download."
-    exit 0
-  else
-    echo "Model checksum is incorrect. Need to download again."
-  fi
+DATASET_NAME=$1
+
+declare -a ALL_DATASET_NAMES=("UCFSports" "JHMDB" "JHMDB2" "JHMDB3" "UCF-101")
+if [[ $ALL_DATASET_NAMES =~ (^|[[:space:]])$DATASET_NAME($|[[:space:]]) ]] ; then
+  echo "Downloading trained ACT-detector caffemodels for $DATASET_NAME.."
+else
+  echo "Dataset name does not exist. Please select a valid dataset."
+  exit 0 
 fi
 
-echo "Downloading precomputed ACT-detector caffemodels for UCFSports, J-HMDB and UCF-101 ..."
+FILE=act-detector-caffemodels-$DATASET_NAME.tgz
 
-wget http://thoth.inrialpes.fr/src/ACTdetector/downloads/act-detector-caffemodels.tgz
+wget http://pascal.inrialpes.fr/data2/act-detector/downloads/trained_models/$FILE
 
 echo "Unzipping..."
 
-tar zxvf $FILE
+tar zxvf $FILE -C ../$DATASET_NAME/
 
-echo "Done. Please run this command again to verify that checksum = $CHECKSUM."
+echo "Done."

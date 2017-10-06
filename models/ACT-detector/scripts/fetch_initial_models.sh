@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 FILE=act-detector-initial-caffemodels.tgz
-CHECKSUM=7
+CHECKSUM=d3347d864067ab3a42e3dc48fc50ed43
 
 if [ -f $FILE ]; then
   echo "File already exists. Checking md5..."
@@ -24,7 +24,7 @@ fi
 
 echo "Downloading VGG16 caffemodels used as initialization for the RGB and the FLOW5 streams ..."
 
-wget http://thoth.inrialpes.fr/src/ACTdetector/downloads/act-detector-initial-caffemodels.tgz
+wget http://pascal.inrialpes.fr/data2/act-detector/downloads/initial_models/act-detector-initial-caffemodels.tgz
 
 echo "Unzipping..."
 
