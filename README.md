@@ -62,7 +62,7 @@ If you find ACT-detector useful in your research, please cite:
 
 To download the ground truth tubes, run the script:
 
-    ./cache/fetch_cached_data.sh --dataset_name # dataset name: UCFSports, JHMDB, UCF101
+    ./cache/fetch_cached_data.sh dataset_name # dataset name: UCFSports, JHMDB, UCF101
 
 This will populate the `cache` folder with three `pkl` files, one for each dataset. 
 For more details about the format of the `pkl` files, see `act-detector-scripts/Dataset.py`. 
@@ -74,27 +74,23 @@ we also provide the RGB and flow files for the three datasets we use.
 
 1. UCF-Sports
 
-You can download the frames (1.5GB), optical flow (42MB) and ground truth annotations: 
+You can download the frames (1.5GB) and optical flow (42MB): 
 
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCFSports-Frames.tar.gz | tar xvz  # frames, 1.5GB
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCFSports-OF.tar.gz     | tar xvz  # optical flow, 42MB
+    ./data/UCFSports/get_ucfsports_data.sh number # number = 0 for RGB Frames and 1 for optical flow
 
 2. J-HMDB  
 
 You can download the frames (4.2GB), optical flow (39MB) and ground truth annotations: 
 
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/JHMDB-Frames.tar.gz  | tar xvz  # frames, 4.2GB
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/JHMDB-OF.tar.gz      | tar xvz  # optical flow, 39MB 
+    ./data/JHMDB/get_jhmdb_data.sh number # number = 0 for for RGB Frames and 1 for optical flow
     
 3. UCF-101
 
 You can download the frames (4.4GB), optical flow (860MB) and ground truth annotations: 
 
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCF101-Frames.tar.gz    | tar xvz  # frames, 4.4GB
-    curl http://pascal.inrialpes.fr/data2/kalogeit/al-datasets/UCF101-OF.tar.gz.tar.gz | tar xvz  # optical flow, 860MB
+    ./data/UCF101/get_ucf101_data.sh number # number = 0 for for RGB Frames and 1 for optical flow
 
-These will create a `datasets` folder in your current directory. 
-
+These will create the `Frames` and `FlowBrox04` folders in the directory of each dataset. 
 
 ## Training 
 
