@@ -129,7 +129,7 @@ ii. 5 stacked Flows
 1. If you want to reproduce our results for the UCF-Sports, J-HMDB (3 splits) and UCF-101 datasets, you need to download our trained caffemodels. 
 To obtain them for sequence length K=6, run from the main caffe directory for each dataset:
 
-       ./models/ACT-detector/scripts/fetch_models.sh --${dataset_name} # change dataset name 
+       ./models/ACT-detector/scripts/fetch_models.sh ${dataset_name} # change dataset name 
 
 This will download one `RGB.caffemodel` and one `FLOW5.caffemodel` for each dataset. 
 These are stored in `models/ACT-detector/${dataset_name}`.
