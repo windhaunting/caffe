@@ -42,7 +42,7 @@ If you find ACT-detector useful in your research, please cite:
 
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
-  git clone git@github.com:vkalogeiton/caffe.git
+  git clone https://github.com/vkalogeiton/caffe.git
   cd caffe
   git checkout act-detector
   ```
