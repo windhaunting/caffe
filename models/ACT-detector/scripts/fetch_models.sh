@@ -12,6 +12,6 @@ wget http://pascal.inrialpes.fr/data2/act-detector/downloads/trained_models/$FIL
 
 echo "Unzipping..."
 
-tar zxvf $FILE -C ../$DATASET_NAME/
+tar zxvf $FILE -C models/ACT-detector/$DATASET_NAME/ && rm -f $FILE
 
 echo "Done."
