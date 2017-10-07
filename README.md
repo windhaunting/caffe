@@ -109,18 +109,18 @@ This will download the caffemodels:
 
 i. RGB 
         
-    export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"          # path of act-detector 
+    export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
     ./caffe/build/tools/caffe train \
-    -solver models/${dataset_name}/solver_RGB.prototxt \             # change dataset name 
-    -weights models/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
+    -solver models/ACT-detector/${dataset_name}/solver_RGB.prototxt \             # change dataset name 
+    -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
     -gpu 0                                                           # gpu id
 
 ii. 5 stacked Flows
 
-    export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"          # path of act-detector 
+    export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
     ./caffe/build/tools/caffe train \
-    -solver models/${dataset_name}/solver_FLOW5.prototxt \           # change dataset name 
-    -weights models/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
+    -solver models/ACT-detector/${dataset_name}/solver_FLOW5.prototxt \           # change dataset name 
+    -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
     -gpu 0                                                           # gpu id
 
 
