@@ -5,8 +5,8 @@ import cPickle as pickle
 import cv2
 import numpy as np
 
-caffe_path = os.path.join(os.path.dirname(__file__), "../python")
-sys.path.insert(0, caffe_path)
+CAFFE_PYTHON_PATH = os.path.join(os.path.dirname(__file__), "../python")
+sys.path.insert(0, CAFFE_PYTHON_PATH)
 import caffe
 from Dataset import GetDataset
 from ACT_utils import *
