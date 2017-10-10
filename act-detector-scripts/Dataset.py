@@ -5,7 +5,9 @@ import cPickle as pickle
 from PIL import Image
 
 ROOT_DATASET_PATH = "/path/to/datasets"  # CHANGEME
-
+# If you use the ACT-detector scripts to download the action localization datasets, for instance UCF-Sports:
+# CAFFE_PATH = os.path.join(os.path.dirname(__file__), '..') 
+# ROOT_DATASET_PATH = CAFFE_PATH + "/data/UCFSports/"
 
 class TubeDataset(object):
     """
