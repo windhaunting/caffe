@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $DIR
 
 DATASET_NAME=$1
 echo "Downloading trained ACT-detector caffemodels for $DATASET_NAME.."
