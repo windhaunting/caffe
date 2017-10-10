@@ -111,7 +111,7 @@ This will download the caffemodels:
 i. RGB 
         
     export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
-    ./caffe/build/tools/caffe train \
+    ./build/tools/caffe train \
     -solver models/ACT-detector/${dataset_name}/solver_RGB.prototxt \             # change dataset_name 
     -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
     -gpu 0                                                                        # gpu id
@@ -119,7 +119,7 @@ i. RGB
 ii. 5 stacked Flows
 
     export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
-    ./caffe/build/tools/caffe train \
+    ./build/tools/caffe train \
     -solver models/ACT-detector/${dataset_name}/solver_FLOW5.prototxt \           # change dataset_name 
     -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
     -gpu 0                                                                        # gpu id
@@ -137,7 +137,7 @@ These are stored in `models/ACT-detector/${dataset_name}`.
 
 2. Next step is to extract tubelets. To do so, run: 
 
-       python act-detector-scripts/ACT.py "extract_tubelets('${dataset_name}', gpu=-1)" # change dataset_name, -1 is for cpu 
+       python act-detector-scripts/ACT.py "extract_tubelets('${dataset_name}', gpu=-1)" # change dataset_name, -1 is for cpu, otherwise 0,...,n for your gpu id 
        
 The tubelets are stored in the folder called `act-detector-results`. 
 Note that the test is not efficient and can be coded more efficiently by extracting features once per frame. 
