@@ -7,7 +7,7 @@ import cv2
 
 from ACT_utils import iou2d
 from Dataset import GetDataset
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'caffe', 'python'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'python'))
 import caffe
 
 
