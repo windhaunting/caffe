@@ -4,7 +4,7 @@ import cPickle as pickle
 
 from PIL import Image
 
-CAFFE_PATH = os.path.join(os.path.dirname(__file__), '..') 
+CAFFE_PATH = os.path.dirname(os.path.dirname(__file__))
 ROOT_DATASET_PATH = "/path/to/datasets/"  # CHANGEME
 # If you use the ACT-detector scripts to download the action localization datasets, for instance UCF-Sports:
 # ROOT_DATASET_PATH = CAFFE_PATH + "/data/UCFSports/"
@@ -26,7 +26,7 @@ class TubeDataset(object):
         self.NAME = dname
         self.SPLIT = split
 
-        cache_file = os.path.join(CAFFE_PATH, 'cache', 'dataset_' + dname + '.pkl')
+        cache_file = os.path.join(CAFFE_PATH, 'cache', dname + '-GT.pkl')
         assert os.path.isfile(cache_file), "Missing cache file for dataset " + dname
 
         with open(cache_file, 'rb') as fid:
