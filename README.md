@@ -62,12 +62,10 @@ If you find ACT-detector useful in your research, please cite:
 
 To download the ground truth tubes, run the script:
 
-    ./cache/fetch_cached_data.sh dataset_name # dataset name: UCFSports, JHMDB, UCF101
+    ./cache/fetch_cached_data.sh ${dataset_name} # dataset_name: UCFSports, JHMDB, UCF101
 
 This will populate the `cache` folder with three `pkl` files, one for each dataset. 
 For more details about the format of the `pkl` files, see `act-detector-scripts/Dataset.py`. 
-Note that in `act-detector-scripts/Dataset.py` you need to update the `ROOT_DATASET_PATH` path
-with your dataset path. 
 
 If you want to reproduce exactly our results as reported in [Tables 2 and 3](https://hal.inria.fr/hal-01519812/document), 
 we also provide the RGB and flow files for the three datasets we use. 
@@ -92,6 +90,9 @@ You can download the frames (4.4GB), optical flow (860MB) and ground truth annot
 
 These will create the `Frames` and `FlowBrox04` folders in the directory of each dataset. 
 
+Note that in `act-detector-scripts/Dataset.py` you need to update the `ROOT_DATASET_PATH` path
+with your dataset path. For instance, if you the action localization datasets using the above scripts, you should update: `ROOT_DATASET_PATH=/CURRENT_CAFFE_PATH/data/dataset_name/`
+
 ## Training 
 
 1. We provide the prototxt used for our experiments for UCF-Sports, J-HMDB (3 splits) and UCF-101. 
@@ -99,7 +100,7 @@ These are stored in: `caffe/models/ACT-detector/${dataset_name}`.
 
 2. Download the RGB and FLOW5 initialization models pre-trained on ILSVRC 2012: 
 
-        ./models/ACT-detector/scripts/fetch_initial_models.sh.
+        ./models/ACT-detector/scripts/fetch_initial_models.sh
   
 This will download the caffemodels:
 `caffe/models/ACT-detector/initialization_VGG_ILSVRC16_K6_RGB.caffemodels` and 
@@ -111,7 +112,7 @@ i. RGB
         
     export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
     ./caffe/build/tools/caffe train \
-    -solver models/ACT-detector/${dataset_name}/solver_RGB.prototxt \             # change dataset name 
+    -solver models/ACT-detector/${dataset_name}/solver_RGB.prototxt \             # change dataset_name 
     -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_RGB.caffemodel \
     -gpu 0                                                                        # gpu id
 
@@ -119,7 +120,7 @@ ii. 5 stacked Flows
 
     export PYTHONPATH="$./act-detector-scripts:$PYTHONPATH"                       # path of act-detector 
     ./caffe/build/tools/caffe train \
-    -solver models/ACT-detector/${dataset_name}/solver_FLOW5.prototxt \           # change dataset name 
+    -solver models/ACT-detector/${dataset_name}/solver_FLOW5.prototxt \           # change dataset_name 
     -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
     -gpu 0                                                                        # gpu id
 
@@ -129,21 +130,21 @@ ii. 5 stacked Flows
 1. If you want to reproduce our results for the UCF-Sports, J-HMDB (3 splits) and UCF-101 datasets, you need to download our trained caffemodels. 
 To obtain them for sequence length K=6, run from the main caffe directory for each dataset:
 
-       ./models/ACT-detector/scripts/fetch_models.sh ${dataset_name} # change dataset name 
+       ./models/ACT-detector/scripts/fetch_models.sh ${dataset_name} # change dataset_name 
 
 This will download one `RGB.caffemodel` and one `FLOW5.caffemodel` for each dataset. 
 These are stored in `models/ACT-detector/${dataset_name}`.
 
 2. Next step is to extract tubelets. To do so, run: 
 
-       python act-detector-scripts/ACT.py "extract_tubelets('${dataset_name}', gpu=-1)" # change dataset name, -1 is for cpu 
+       python act-detector-scripts/ACT.py "extract_tubelets('${dataset_name}', gpu=-1)" # change dataset_name, -1 is for cpu 
        
 The tubelets are stored in the folder called `act-detector-results`. 
 Note that the test is not efficient and can be coded more efficiently by extracting features once per frame. 
 
 3. For creating tubes, you can run the following:
 
-       python act-detector-scripts/ACT.py "BuildTubes('${dataset_name}')"     # change dataset name 
+       python act-detector-scripts/ACT.py "BuildTubes('${dataset_name}')"     # change dataset_name 
 
 The tubelets are stored in the folder called `act-detector-results`. 
 
@@ -151,12 +152,12 @@ The tubelets are stored in the folder called `act-detector-results`.
 
 1. For evaluating the per-frame detections, we provide scripts for frame-mAP, frame-MABO and frame-Classification. You can run them as follows: 
        
-       python act-detector-scripts/ACT.py "frameAP('${dataset_name}')"       # change dataset name 
+       python act-detector-scripts/ACT.py "frameAP('${dataset_name}')"       # change dataset_name 
        python act-detector-scripts/ACT.py "frameMABO('${dataset_name}')"
        python act-detector-scripts/ACT.py "frameCLASSIF('${dataset_name}')"
        
 2. For evaluating the tubes, we provide scripts for video-mAP. You can run it as follows:
 
-       python act-detector-scripts/ACT.py "videoAP('${dataset_name}')"       # change dataset name 
+       python act-detector-scripts/ACT.py "videoAP('${dataset_name}')"       # change dataset_name 
        
        
