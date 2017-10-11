@@ -157,7 +157,7 @@ def iou3dt(b1, b2, spatialonly=False):
     tube1 = b1[int(np.where(b1[:, 0] == tmin)[0]) : int(np.where(b1[:, 0] == tmax)[0]) + 1, :]
     tube2 = b2[int(np.where(b2[:, 0] == tmin)[0]) : int(np.where(b2[:, 0] == tmax)[0]) + 1, :]
 
-    return iou3d(tube1, tub2) * (1. if spatialonly else temporal_inter / temporal_union)
+    return iou3d(tube1, tube2) * (1. if spatialonly else temporal_inter / temporal_union)
 
 def nms3dt(tubes, overlap=0.5):
     """Compute NMS of scored tubes. Tubes are given as list of (tube, score)
