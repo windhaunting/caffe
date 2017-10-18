@@ -73,6 +73,9 @@ def extract_tubelets(dname, gpu=-1, redo=False):
             kwargs_flo = {}
             for j in xrange(K):
                 im = cv2.imread(d.imfile(v, i + j))
+                if im is None:
+                    print "Image {:s} does not exist".format( d.imfile(v,i+j))
+                return
                 imscale = cv2.resize(im, (IMGSIZE, IMGSIZE), interpolation=cv2.INTER_LINEAR)
                 kwargs_rgb['data_stream' + str(j)] = np.transpose(imscale-MEAN, (2, 0, 1))[None, :, :, :]
                 imf = [cv2.imread(d.flowfile(v, min(d.nframes(v), i + j + iflow))) for iflow in xrange(NFLOWS)]
