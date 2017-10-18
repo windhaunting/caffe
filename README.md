@@ -146,7 +146,7 @@ Note that the test is not efficient and can be coded more efficiently by extract
 
        python act-detector-scripts/ACT.py "BuildTubes('${dataset_name}')"     # change dataset_name 
 
-The tubelets are stored in the folder called `act-detector-results`. 
+The tubelets are stored in the folder called `results/ACT-detector`. 
 
 ## Evaluation 
 
