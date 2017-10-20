@@ -21,7 +21,7 @@ method   |  frame-mAP | video-mAP |   |   |  |
 [Singh17ICCV](https://arxiv.org/pdf/1611.08563.pdf) | - | 73.8 | 72.0 | 44.5 | 41.6 | 
 **ACT-detector** | 65.7 | 74.2 | **73.7** | **52.1** | **44.8** |
 
-UCF101: frame and video mAP results (with * we denote the UCF101v2 annotations from [here](https://github.com/gurkirt/corrected-UCF101-Annots)).
+UCF101: frame and video mAP results (with * we denote the UCF101v2 annotations from [here](https://github.com/gurkirt/corrected-UCF101-Annots)). For future experiments, please use the UCF101v2. 
 
 method   |  frame-mAP | video-mAP |   |   |  |
 :-------|:-----:|:-----:|:-----:|:-----:|:-----:|
