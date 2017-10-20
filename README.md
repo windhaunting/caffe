@@ -9,16 +9,31 @@ It takes as input sequences of frames and outputs tubelets, i.e., sequences of b
 
 For more details, please refer to our [ICCV 2017 paper](https://hal.inria.fr/hal-01519812/document) and our [website](http://thoth.inrialpes.fr/src/ACTdetector/). 
 
-Video mAP results on J-HMDB and UCF-101. 
+JHMDB: frame and video mAP results.
 
-method   |  J-HMDB |  |   |   | UCF-101 |   |    |   |
-:-------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| threshold | 0.2 | 0.5 | 0.75 | 0.5:0.95 | 0.2 | 0.5 | 0.75 | 0.5:0.95 |
-[Saha16BMVC](https://arxiv.org/pdf/1608.01529.pdf) |72.6 | 71.5 | 43.3 | 40.0 | 66.7 | 35.9 | 7.9 | 14.4 |
-[Peng16ECCV w/0 MR](https://hal.inria.fr/hal-01349107v3/document) | 71.1 | 70.6 | 48.2 | 42.2 | 71.8 | 35.9 | 1.6 | 8.8 |
-[Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) |**74.3** | 73.1 | - | - | 72.9 | - | - | - |
-[Singh17ICCV](https://arxiv.org/pdf/1611.08563.pdf) | 73.8 | 72.0 | 44.5 | 41.6 | 73.5 | 46.3 | 15.0 | 20.4 |
-**ACT-detector** | 74.2 | **73.7** | **52.1** | **44.8** | **77.2** | **51.4** | **22.7** | **25.0** |
+method   |  frame-mAP | video-mAP |   |   |  |
+:-------|:-----:|:-----:|:-----:|:-----:|:-----:|
+| threshold | 0.5 | 0.2 | 0.5 | 0.75 | 0.5:0.95 |
+[Wang16CVPR](https://arxiv.org/pdf/1604.07279.pdf) | 39.9 | - | 56.4 | - | - |
+[Saha16BMVC](https://arxiv.org/pdf/1608.01529.pdf) | - |72.6 | 71.5 | 43.3 | 40.0 |
+[Peng16ECCV w/0 MR](https://hal.inria.fr/hal-01349107v3/document) | 56.9 | 71.1 | 70.6 | 48.2 | 42.2 |
+[Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) | 58.5 |**74.3** | 73.1 | - | - |
+[Singh17ICCV](https://arxiv.org/pdf/1611.08563.pdf) | - | 73.8 | 72.0 | 44.5 | 41.6 | 
+**ACT-detector** | 65.7 | 74.2 | **73.7** | **52.1** | **44.8** |
+
+UCF101: frame and video mAP results (with * we denote the UCF101v2 annotations from [here](https://github.com/gurkirt/corrected-UCF101-Annots)).
+
+method   |  frame-mAP | video-mAP |   |   |  |
+:-------|:-----:|:-----:|:-----:|:-----:|:-----:|
+| threshold | 0.5 | 0.2 | 0.5 | 0.75 | 0.5:0.95 |
+[Saha16BMVC*](https://arxiv.org/pdf/1608.01529.pdf) | - | 66.7 | 35.9 | 7.9 | 14.4 |
+[Peng16ECCV w/0 MR](https://hal.inria.fr/hal-01349107v3/document) | 64.8 | 71.8 | 35.9 | 1.6 | 8.8 |
+[Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) | 65.7 | 72.9 | - | - | - |
+[Peng16ECCV with MR*](https://hal.inria.fr/hal-01349107v3/document) | - | 73.5 | 32.1 | 2.7 | 7.3 |
+[Singh17ICCV*](https://arxiv.org/pdf/1611.08563.pdf) | - | 73.5 | 46.3 | 15.0 | 20.4 |
+**ACT-detector*** | **69.5** | **76.5** | **49.2** | **19.7** | **23.4** |
+**ACT-detector** | **67.1** | **77.2** | **51.4** | **22.7** | **25.0** |
+
 
 ## Citing ACT-detector
 
@@ -62,7 +77,7 @@ If you find ACT-detector useful in your research, please cite:
 
 To download the ground truth tubes, run the script:
 
-    ./cache/fetch_cached_data.sh ${dataset_name} # dataset_name: UCFSports, JHMDB, UCF101
+    ./cache/fetch_cached_data.sh ${dataset_name} # dataset_name: UCFSports, JHMDB, UCF101, UCF101v2
 
 This will populate the `cache` folder with three `pkl` files, one for each dataset. 
 For more details about the format of the `pkl` files, see `act-detector-scripts/Dataset.py`. 
@@ -92,6 +107,8 @@ These will create the `Frames` and `FlowBrox04` folders in the directory of each
 
 Note that in `act-detector-scripts/Dataset.py` you need to update the `ROOT_DATASET_PATH` path
 with your dataset path. For instance, if you the action localization datasets using the above scripts, you should update: `ROOT_DATASET_PATH=/CURRENT_CAFFE_PATH/data/dataset_name/`
+
+You can find the UCF101v2 frames [here](https://github.com/gurkirt/corrected-UCF101-Annots).
 
 ## Training 
 
@@ -124,6 +141,7 @@ ii. 5 stacked Flows
     -weights models/ACT-detector/initialization_VGG_ILSVRC16_K6_FLOW5.caffemodel \
     -gpu 0                                                                        # gpu id
 
+where `${dataset_name}` can be: `UCFSports`, `JHMDB`, `JHMDB2`, `JHMDB3`, `UCF101` or `UCF101v2`. 
 
 ## Testing
 
@@ -147,6 +165,8 @@ Note that the test is not efficient and can be coded more efficiently by extract
        python act-detector-scripts/ACT.py "BuildTubes('${dataset_name}')"     # change dataset_name 
 
 The tubelets are stored in the folder called `results/ACT-detector`. 
+
+For all cases `${dataset_name}` can be: `UCFSports`, `JHMDB`, `JHMDB2`, `JHMDB3`, `UCF101` or `UCF101v2`. 
 
 ## Evaluation 
 
