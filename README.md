@@ -34,6 +34,7 @@ method   |  frame-mAP | video-mAP |   |   |  |
 **ACT-detector*** | **69.5** | **76.5** | **49.2** | **19.7** | **23.4** |
 **ACT-detector** | **67.1** | **77.2** | **51.4** | **22.7** | **25.0** |
 
+You can find the per-class frame-AP and video-AP results ([Tables 3 and 4 in our paper](https://hal.inria.fr/hal-01519812/document)) on UCF-Sports, JHMDB and UCF-101 [here](https://docs.google.com/spreadsheets/d/1WhOvsV-_ioel6vrpMskWayxahdMBUkXkQQzRlN3HrU0/edit?usp=sharing)
 
 ## Citing ACT-detector
 
