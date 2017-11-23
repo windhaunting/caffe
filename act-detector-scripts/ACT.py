@@ -79,7 +79,7 @@ def extract_tubelets(dname, gpu=-1, redo=False):
                 imscale = cv2.resize(im, (IMGSIZE, IMGSIZE), interpolation=cv2.INTER_LINEAR)
                 kwargs_rgb['data_stream' + str(j)] = np.transpose(imscale-MEAN, (2, 0, 1))[None, :, :, :]
                 imf = [cv2.imread(d.flowfile(v, min(d.nframes(v), i + j + iflow))) for iflow in xrange(NFLOWS)]
-                if any(imf) is None:
+                if np.any(imf) is None:
                     print "Flow image {:s} does not exist".format(d.flowfile(v, i+j))
                     return
                 imscalef = [cv2.resize(im, (IMGSIZE, IMGSIZE), interpolation=cv2.INTER_LINEAR) for im in imf]
