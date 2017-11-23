@@ -53,6 +53,7 @@ If you find ACT-detector useful in your research, please cite:
 3. [Training](#training)
 4. [Testing](#testing)
 5. [Evaluation](#evaluation)
+6. [Run on a new dataset](#Run on a new dataset)
 
 ## Installation
 
@@ -181,4 +182,14 @@ For all cases `${dataset_name}` can be: `UCFSports`, `JHMDB`, `JHMDB2`, `JHMDB3`
 
        python act-detector-scripts/ACT.py "videoAP('${dataset_name}')"       # change dataset_name 
        
-       
+## Run on a new dataset 
+
+If you want to run the ACT-detector on another dataset, you need the deploy, solver and train files. 
+You can generate them as follows:
+
+       python act-detector-scripts/ACT_create_prototxt.py ${dataset_name} False # change dataset_name, False if RGB, True if FLOW5
+
+For all cases `${dataset_name}` can be: `UCFSports`, `JHMDB`, `JHMDB2`, `JHMDB3`, `UCF101` or `UCF101v2`. 
+
+This will create a folder in `models/ACT-detector/` called `generated_${dataset_name}` containing the `deploy_${modality}.prototxt`, `train_${modality}.prototxt` and `solver_${modality}.prototxt`, where `${modality}` is `RGB` or `FLOW5`. 
+Note that you need to modify the `ct-detector-scripts/Dataset.py` file to contain your dataset.        
