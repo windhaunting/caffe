@@ -193,3 +193,13 @@ For all cases `${dataset_name}` can be: `UCFSports`, `JHMDB`, `JHMDB2`, `JHMDB3`
 
 This will create a folder in `models/ACT-detector/` called `generated_${dataset_name}` containing the `deploy_${modality}.prototxt`, `train_${modality}.prototxt` and `solver_${modality}.prototxt`, where `${modality}` is `RGB` or `FLOW5`. 
 Note that you need to modify the `ct-detector-scripts/Dataset.py` file to contain your dataset.        
+
+## Models for sequence length K=8
+
+You can download the RGB and FLOW5 initialization models pre-trained on ILSVRC 2012: 
+
+        ./models/ACT-detector/scripts/fetch_initial_modelsK.sh 8 # K=8
+  
+This will download the caffemodels:
+`caffe/models/ACT-detector/initialization_VGG_ILSVRC16_K8_RGB.caffemodels` and 
+`caffe/models/ACT-detector/initialization_VGG_ILSVRC16_K8_FLOW5.caffemodels`
