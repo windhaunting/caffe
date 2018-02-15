@@ -17,9 +17,10 @@ method   |  frame-mAP | video-mAP |   |   |  |
 [Wang16CVPR](https://arxiv.org/pdf/1604.07279.pdf) | 39.9 | - | 56.4 | - | - |
 [Saha16BMVC](https://arxiv.org/pdf/1608.01529.pdf) | - |72.6 | 71.5 | 43.3 | 40.0 |
 [Peng16ECCV w/0 MR](https://hal.inria.fr/hal-01349107v3/document) | 56.9 | 71.1 | 70.6 | 48.2 | 42.2 |
-[Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) | 58.5 |**74.3** | 73.1 | - | - |
+[Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) | 58.5 |74.3 | 73.1 | - | - |
 [Singh17ICCV](https://arxiv.org/pdf/1611.08563.pdf) | - | 73.8 | 72.0 | 44.5 | 41.6 | 
-**ACT-detector** | 65.7 | 74.2 | **73.7** | **52.1** | **44.8** |
+[Hou17ICCV](http://openaccess.thecvf.com/content_ICCV_2017/papers/Hou_Tube_Convolutional_Neural_ICCV_2017_paper.pdf)  | 61.3 | **78.4** | **76.9** | - | - | 
+**ACT-detector** | **65.7** | 74.2 | 73.7 | **52.1** | **44.8** |
 
 UCF101: frame and video mAP results (with * we denote the UCF101v2 annotations from [here](https://github.com/gurkirt/corrected-UCF101-Annots)). For future experiments, please use the UCF101v2. 
 
@@ -31,6 +32,7 @@ method   |  frame-mAP | video-mAP |   |   |  |
 [Peng16ECCV with MR](https://hal.inria.fr/hal-01349107v3/document) | 65.7 | 72.9 | - | - | - |
 [Peng16ECCV with MR*](https://hal.inria.fr/hal-01349107v3/document) | - | 73.5 | 32.1 | 2.7 | 7.3 |
 [Singh17ICCV*](https://arxiv.org/pdf/1611.08563.pdf) | - | 73.5 | 46.3 | 15.0 | 20.4 |
+[Hou17ICCV](http://openaccess.thecvf.com/content_ICCV_2017/papers/Hou_Tube_Convolutional_Neural_ICCV_2017_paper.pdf)  | 41.4 | 47.1 | - | - | - | 
 **ACT-detector*** | **69.5** | **76.5** | **49.2** | **19.7** | **23.4** |
 **ACT-detector** | **67.1** | **77.2** | **51.4** | **22.7** | **25.0** |
 
