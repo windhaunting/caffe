@@ -10,6 +10,7 @@ sys.path.insert(0, CAFFE_PYTHON_PATH)
 import caffe
 from Dataset import GetDataset
 from ACT_utils import *
+from copy import deepcopy
 
 K = 6
 IMGSIZE = 300
@@ -262,6 +263,139 @@ def frameAP(dname, th=0.5, redo=False):
     print("{:20s} {:8.2f}".format("mAP", np.mean(ap)))
     print("")
 
+def frameAP_error(dname, th=0.5, redo=False):
+    d = GetDataset(dname)
+    dirname = os.path.join(os.path.dirname(__file__), '../results/ACT-detector/', dname)
+    
+    eval_file = os.path.join(dirname, "frameAP{:g}ErrorAnalysis.pkl".format(th))
+    
+    if os.path.isfile(eval_file) and not redo:
+        with open(eval_file, 'rb') as fid:
+            res = pickle.load(fid)
+    else:
+        vlist = d.test_vlist()
+        # load per-frame detections
+        alldets = load_frame_detections(d, vlist, dirname, 0.3)
+        res = {}
+               
+        # compute AP for each class
+        for ilabel,label in enumerate(d.labels):
+            # detections of this class
+            detections = alldets[alldets[:, 2] == ilabel, :]
+
+            gt = {}
+            othergt = {}
+            labellist = {}
+
+            for iv, v in enumerate(vlist):
+                tubes = d.gttubes(v)
+                labellist[v] = tubes.keys()
+                
+                for il in tubes:    
+                    for tube in tubes[il]:
+                        for i in xrange(tube.shape[0]):
+                            k = (iv, int(tube[i, 0]))
+                            if il == ilabel:  
+                                if k not in gt:
+                                    gt[k] = []
+                                gt[k].append(tube[i, 1:5].tolist())
+                            else:
+                                if k not in othergt:
+                                    othergt[k] = []
+                                othergt[k].append(tube[i, 1:5].tolist())
+            
+            for k in gt: 
+                gt[k] = np.array(gt[k])
+            for k in othergt: 
+                othergt[k] = np.array(othergt[k])
+
+            dupgt = deepcopy(gt)
+
+            # pr will be an array containing precision-recall values and 4 types of errors:
+            # localization, classification, timing, others 
+            pr = np.empty((detections.shape[0] + 1, 6), dtype=np.float32)# precision, recall
+            pr[0, 0] = 1.0
+            pr[0, 1:] = 0.0
+            fn = sum([g.shape[0] for g in gt.values()]) # false negatives
+            fp = 0 # false positives
+            tp = 0 # true positives
+            EL = 0 # localization errors
+            EC = 0 # classification error: overlap >=0.5 with an another object 
+            EO = 0 # other errors
+            ET = 0 # timing error: the video contains the action but not at this frame 
+	        
+
+            for i, j in enumerate(np.argsort(-detections[:,3])):
+                k = (int(detections[j, 0]), int(detections[j,1]))
+                box = detections[j, 4:8]
+                ispositive = False
+
+                if k in dupgt:
+                    if k in gt:
+                        ious = iou2d(gt[k], box)
+                        amax = np.argmax(ious)
+                    
+                    if k in gt and ious[amax] >= th:
+                        ispositive = True
+                        gt[k] = np.delete(gt[k], amax, 0)
+                        if gt[k].size == 0: 
+                            del gt[k]
+                    else:
+                        EL += 1 
+                elif k in othergt:
+                    ious = iou2d(othergt[k], box)
+                    if np.max(ious) >= th:
+                        EC += 1
+                    else:
+                        EO += 1
+                elif ilabel in labellist[k[0]]:
+                    ET += 1
+                else:
+                    EO += 1
+
+                if ispositive:
+                    tp += 1
+                    fn -= 1
+                else:
+                    fp += 1
+
+
+                pr[i+1, 0] = float(tp)/float(tp+fp)
+                pr[i+1, 1] = float(tp)/float(tp+fn)
+                pr[i+1, 2] = float(EL)/float(tp+fp) 
+                pr[i+1, 3] = float(EC)/float(tp+fp)
+                pr[i+1, 4] = float(ET)/float(tp+fp)  
+                pr[i+1, 5] = float(EO)/float(tp+fp) 
+
+            res[label] = pr
+
+        # save results
+        with open(eval_file, 'wb') as fid:
+            pickle.dump(res, fid)
+
+    # display results
+    AP = 100*np.array([pr_to_ap(res[label][:,[0, 1]]) for label in d.labels])
+    othersap = [100*np.array([pr_to_ap(res[label][:,[j, 1]]) for label in d.labels]) for j in range(2, 6)]
+
+    EL = othersap[0] 
+    EC = othersap[1] 
+    ET = othersap[2] 
+    EO = othersap[3]
+    EM = 100 - 100*np.array([res[label][-1, 1] for label in d.labels]) # missed detections = 1 - recall
+    
+    LIST = [AP, EL, EC, ET, EO, EM]
+
+    print "Error Analysis"
+    
+    print ""
+    print("{:20s} {:8s} {:8s} {:8s} {:8s} {:8s} {:8s}".format('label', '   AP   ', '  Loc.  ', '  Cls.  ', '  Time  ', ' Other ', ' missed '))
+    print ""
+    for il, label in enumerate(d.labels):
+        print("{:20s} ".format(label) + " ".join(["{:8.2f}".format(L[il]) for L in LIST]))
+    
+    print ""
+    print("{:20s} ".format("mean") + " ".join(["{:8.2f}".format(np.mean(L)) for L in LIST]))
+    print("")
 
 def frameMABO(dname, redo=False):
     d = GetDataset(dname)
